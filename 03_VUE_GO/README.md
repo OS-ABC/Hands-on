@@ -1,5 +1,20 @@
 Vue+Go用户登录实践
 
+系统环境版本说明：
+* nodejs:  v11.10.1
+* npm:  6.13.1
+* go:   go1.13.5 darwin/amd64
+* vue:  @vue/cli 4.0.5
+
+名词解释：
+* vue-router是vue.js官方的路由插件
+* Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。
+* SASS： SASS（Syntactically Awesome Stylesheet）是一个CSS预处理器，有助于减少CSS的重复，节省时间。它是更稳定和强大的CSS扩展语言，描述文档的样式干净和结构。
+* Babel： Babel 是一个 JavaScript 编译器
+* ESLint： ESLint 是一个插件化并且可配置的 JavaScript 语法规则和代码风格的检查工具。
+
+
+
 
 
 1、Gin框架
@@ -55,14 +70,20 @@ http://localhost:8080/ping
 ```
 
 
-
-
-
 2、编写后端用户验证接口
 
 
 
-3、Vue框架
+3、搭建Vue框架
+* 创建新项目
+
+
+```
+vue create demo01
+```
+
+
+
 
 
 
