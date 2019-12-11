@@ -82,6 +82,21 @@ http://localhost:8080/ping
 vue create demo01
 ```
 
+* 运行Vue应用
+
+
+```
+rpm run serve
+```
+
+* 浏览器访问Web
+```
+http://localhost:8080/
+```
+
+
+
+
 
 
 
