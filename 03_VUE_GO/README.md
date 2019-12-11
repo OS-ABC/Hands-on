@@ -23,6 +23,39 @@ Vue+Go用户登录实践
 go get -u github.com/gin-gonic/gin
 ```
 
+示例代码
+
+
+```
+package main
+
+import "github.com/gin-gonic/gin"
+
+func main() {
+    r := gin.Default()
+    r.GET("/abc", func(c *gin.Context) {
+        c.JSON(200, gin.H{
+            "message": "Hello ABC!",
+        })
+    })
+    r.Run() // listen and serve on 0.0.0.0:8080
+}
+```
+
+运行
+
+
+```
+go run main.go
+```
+
+
+```
+http://localhost:8080/ping
+```
+
+
+
 
 
 2、编写后端用户验证接口
