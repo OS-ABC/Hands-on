@@ -35,7 +35,7 @@ Vue+Go用户登录实践
 * 安装gin
 
 ```
-go get -u github.com/gin-gonic/gin
+ # go get -u github.com/gin-gonic/gin
 ```
 
 示例代码
@@ -61,7 +61,7 @@ func main() {
 
 
 ```
-go run main.go
+ # go run main.go
 ```
 
 
@@ -78,15 +78,16 @@ http://localhost:8080/ping
 * 创建新项目
 
 
+
 ```
-vue create demo01
+ # vue create demo01
 ```
 
 * 运行Vue应用
 
 
 ```
-rpm run serve
+ # rpm run serve
 ```
 
 * 浏览器访问Web
@@ -94,13 +95,27 @@ rpm run serve
 http://localhost:8080/
 ```
 
+* 安装element UI (https://element.eleme.cn/#/zh-CN)
 
 
+```
+ # vue add element
+```
 
 
+```
+✔  Successfully invoked generator for plugin: vue-cli-plugin-element
+   The following files have been updated / added:
 
+     src/element-variables.scss
+     src/plugins/element.js
+     package-lock.json
+     package.json
+     src/App.vue
+     src/main.js
 
-
+   You should review these changes with git diff and commit them.
+```
 
 4、编写Vue用户登录功能
 
@@ -108,3 +123,6 @@ http://localhost:8080/
 
 5、程序优化
 
+
+参考：
+* vue cli 4.0.5 的使用 https://www.cnblogs.com/qinyuanchun/p/11821918.html
