@@ -113,7 +113,7 @@ func main() {
 
 ![](/03_VUE_GO/images/03@2x.png)
 
-增加静态资源（可跳过）
+在Web后端增加静态资源（可跳过）
 
 
 ```
@@ -149,6 +149,9 @@ func main() {
 将静态文件放到assets目录下
 打开浏览器，访问静态资源
 ![](/03_VUE_GO/images/04@2x.png)
+
+使用gorm访问数据库（可跳过）
+
 
 
 3、搭建Vue框架
@@ -196,8 +199,7 @@ http://localhost:8080/
 ```
 
 4、编写Vue用户登录功能
-
-
+![](/03_VUE_GO/images/05@2x.png)
 
 
 
