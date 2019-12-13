@@ -113,7 +113,7 @@ func main() {
 
 ![](/03_VUE_GO/images/03@2x.png)
 
-增加静态资源（可跳过）
+在Web后端增加静态资源（可跳过）
 
 
 ```
@@ -146,9 +146,6 @@ func main() {
 }
 
 ```
-将静态文件放到assets目录下
-打开浏览器，访问静态资源
-![](/03_VUE_GO/images/04@2x.png)
 
 
 3、搭建Vue框架
@@ -196,6 +193,265 @@ http://localhost:8080/
 ```
 
 4、编写Vue用户登录功能
+![](/03_VUE_GO/images/05@2x.png)
+
+在APP.vue中使用router-view
+```
+<template>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</template>
+
+```
+
+
+router/index.js增加路由
+
+```
+{
+    path: "/login",
+    name: "login",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Login.vue")
+  },
+```
+
+在views中增加Login.vue文件
+
+
+```
+<template>
+  <div class="login-container">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+
+      <div class="title-container">
+        <h3 class="title">后台管理系统</h3>
+      </div>
+
+      <el-form-item prop="username">
+        <span class="svg-container">
+          
+        </span>
+        <el-input
+          ref="username"
+          v-model="loginForm.username"
+          placeholder="用户名"
+          name="username"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="密码"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+            @keyup.native="checkCapslock"
+            @blur="capsTooltip = false"
+            @keyup.enter.native="handleLogin"
+          />
+         
+        </el-form-item>
+      </el-tooltip>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
+    </el-form>
+
+  </div>
+</template>
+
+<script>
+import loginApi from '@/api/login'
+
+export default {
+  name: 'Login',
+  data () {
+    const validateUsername = (rule, value, callback) => {
+      if (value.length < 5) {
+        callback(new Error('用户名不能少于5个字符'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 5) {
+        callback(new Error('密码不能少于5个字符'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      loginForm: {
+        username: 'admin',
+        password: '123456'
+      },
+      loginRules: {
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      },
+      passwordType: 'password',
+      capsTooltip: false,
+      loading: false,
+      showDialog: false
+    }
+  },
+  created () {
+    // window.addEventListener('storage', this.afterQRScan)
+  },
+  mounted () {
+    if (this.loginForm.username === '') {
+      this.$refs.username.focus()
+    } else if (this.loginForm.password === '') {
+      this.$refs.password.focus()
+    }
+  },
+  destroyed () {
+    // window.removeEventListener('storage', this.afterQRScan)
+  },
+  methods: {
+    handleLogin () {
+      let _this = this
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          loginApi.login(this.loginForm).then(function (result) {
+            console.info(result)
+            if (result && result.statusText === "OK") {
+              _this.$router.push({ path: '/' })
+            } else {
+              _this.loading = false
+              _this.$message({
+                message: result.statusText,
+                type: 'error'
+              })
+            }
+          }).catch(function () {
+            _this.loading = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+  }
+}
+</script>
+
+
+增加login接口，新建api/login.js
+```
+import { post } from '@/utils/request'
+
+export default {
+  login: query => post(`/api/user/login`, query)
+}
+```
+
+```
+
+修改vue.config.js文件，指定api的proxy
+
+
+```
+'use strict'
+const path = require('path')
+
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
+
+module.exports = {
+  devServer: {
+    open: true,
+    host: 'localhost',
+    port: 9999,
+    https: false,
+    hotOnly: false,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8001',
+        changeOrigin: true
+      }
+    }
+  },
+}
+
+```
+
+在src目录中新建utils目录，新建request.js文件
+
+
+```
+import axios from 'axios'
+import vue from 'vue'
+
+const request = function (query) {
+  return axios.request(query)
+    .then(res => {
+      console.info(res)
+      return Promise.resolve(res)
+    })
+    .catch(e => {
+      vue.prototype.$message.error(e.message)
+      return Promise.reject(e.message)
+    })
+}
+
+
+const post = function (url, params) {
+  const query = {
+    baseURL: process.env.VUE_APP_URL,
+    url: url,
+    method: 'post',
+    withCredentials: true,
+    timeout: 30000,
+    data: params,
+    headers: { 'Content-Type': 'application/json', 'request-ajax': true }
+  }
+  return request(query)
+}
+
+const postWithLoadTip = function (url, params) {
+  const query = {
+    baseURL: process.env.VUE_APP_URL,
+    url: url,
+    method: 'post',
+    withCredentials: true,
+    timeout: 30000,
+    data: params,
+    headers: { 'Content-Type': 'application/json', 'request-ajax': true }
+  }
+  return request( query)
+}
+
+export {
+  post,
+  postWithLoadTip
+}
+
+```
+
+
+附加内容
+
+将静态文件放到assets目录下
+打开浏览器，访问静态资源
+![](/03_VUE_GO/images/04@2x.png)
+
+使用gorm访问数据库（可跳过）
+
 
 
 
