@@ -7,11 +7,11 @@ Vue+Go用户登录实践
 * vue:  @vue/cli 4.0.5
 
 名词解释：
-* vue-router是vue.js官方的路由插件
-* Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。
-* SASS： SASS（Syntactically Awesome Stylesheet）是一个CSS预处理器，有助于减少CSS的重复，节省时间。它是更稳定和强大的CSS扩展语言，描述文档的样式干净和结构。
-* Babel： Babel 是一个 JavaScript 编译器
-* ESLint： ESLint 是一个插件化并且可配置的 JavaScript 语法规则和代码风格的检查工具。
+* vue-router:是vue.js官方的路由插件
+* Vuex:是一个专为 Vue.js 应用程序开发的状态管理模式。
+* SASS:SASS（Syntactically Awesome Stylesheet）是一个CSS预处理器，有助于减少CSS的重复，节省时间。它是更稳定和强大的CSS扩展语言，描述文档的样式干净和结构。
+* Babel: Babel 是一个 JavaScript 编译器
+* ESLint: ESLint 是一个插件化并且可配置的 JavaScript 语法规则和代码风格的检查工具。
 
 
 
@@ -53,7 +53,7 @@ func main() {
             "message": "Hello ABC!",
         })
     })
-    r.Run() // listen and serve on 0.0.0.0:8080
+    r.Run(":8001") // listen and serve on 0.0.0.0:8001
 }
 ```
 
@@ -66,7 +66,7 @@ func main() {
 
 
 ```
-http://localhost:8080/ping
+http://localhost:8001/abc
 ```
 
 
@@ -77,14 +77,11 @@ http://localhost:8080/ping
 3、搭建Vue框架
 * 创建新项目
 
-
-
 ```
  # vue create demo01
 ```
 
 * 运行Vue应用
-
 
 ```
  # rpm run serve
