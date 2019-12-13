@@ -104,17 +104,21 @@ http://localhost:8080/
 
 
 ```
+✔  Successfully installed plugin: vue-cli-plugin-element
+
+? How do you want to import Element? Fully import
+? Do you wish to overwrite Element's SCSS variables? No
+? Choose the locale you want to load zh-CN
+
 ✔  Successfully invoked generator for plugin: vue-cli-plugin-element
    The following files have been updated / added:
 
-     src/element-variables.scss
      src/plugins/element.js
      package-lock.json
      package.json
      src/App.vue
      src/main.js
-
-   You should review these changes with git diff and commit them.
+     
 ```
 
 4、编写Vue用户登录功能
