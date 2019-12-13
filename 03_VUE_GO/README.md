@@ -68,13 +68,38 @@ func main() {
 ```
 http://localhost:8001/abc
 ```
-
+![](/03_VUE_GO/images/01@2x.png)
 
 2、编写后端用户验证接口
 
 
 ```
+package main
 
+import (
+    "github.com/gin-gonic/gin"
+    "net/http"
+)
+
+type LoginForm struct {
+    User     string `form:"user" binding:"required"`
+    Password string `form:"password" binding:"required"`
+}
+
+func main() {
+    router := gin.Default()
+    router.POST("/api/user/login", func(c *gin.Context) {
+        var form LoginForm
+        if c.ShouldBind(&form) == nil {
+            if form.User == "user" && form.Password == "password" {
+                c.JSON(http.StatusOK, gin.H{"status" :1,"message":"身份验证成功"})
+            } else {
+                c.JSON(http.StatusOK, gin.H{"status" :0,"message":"身份验证失败"})
+            }
+        }
+    })
+    router.Run(":8001")
+}
 ```
 运行程序
 
@@ -84,7 +109,46 @@ http://localhost:8001/abc
 
 使用PostMan工具进行调试
 
+![](/03_VUE_GO/images/02@2x.png)
 
+![](/03_VUE_GO/images/03@2x.png)
+
+增加静态资源（可跳过）
+
+
+```
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+    "net/http"
+)
+
+type LoginForm struct {
+    User     string `form:"user" binding:"required"`
+    Password string `form:"password" binding:"required"`
+}
+
+func main() {
+    router := gin.Default()
+    router.POST("/api/user/login", func(c *gin.Context) {
+        var form LoginForm
+        if c.ShouldBind(&form) == nil {
+            if form.User == "user" && form.Password == "password" {
+                c.JSON(http.StatusOK, gin.H{"status" :1,"message":"身份验证成功"})
+            } else {
+                c.JSON(http.StatusOK, gin.H{"status" :0,"message":"身份验证失败"})
+            }
+        }
+    })
+    router.Static("/assets", "./assets")
+    router.Run(":8001")
+}
+
+```
+将静态文件放到assets目录下
+打开浏览器，访问静态资源
+![](/03_VUE_GO/images/04@2x.png)
 
 
 3、搭建Vue框架
